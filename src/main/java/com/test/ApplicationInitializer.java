@@ -20,6 +20,9 @@ public class ApplicationInitializer  implements WebApplicationInitializer {
         // but since this is a web application, and we are using annotations, we can use the AnnotationConfigApplicationContext
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
 
+        // tie up the spring application class with the annotaionconfigapplicationcontext
+        context.register(ApplicationConfig.class);
+
         ServletRegistration.Dynamic servletRegistration =
                 servletContext.addServlet("mvc", new DispatcherServlet((WebApplicationContext) context));
 
