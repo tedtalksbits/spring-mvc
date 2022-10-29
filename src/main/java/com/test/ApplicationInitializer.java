@@ -2,7 +2,7 @@ package com.test;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
@@ -18,13 +18,13 @@ public class ApplicationInitializer  implements WebApplicationInitializer {
 
         // bootstrap the dispatcherservlet, generally the configuration is fetched into a context object
         // but since this is a web application, and we are using annotations, we can use the AnnotationConfigApplicationContext
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
 
         // tie up the spring application class with the annotaionconfigapplicationcontext
         context.register(ApplicationConfig.class);
 
-        ServletRegistration.Dynamic servletRegistration =
-                servletContext.addServlet("mvc", new DispatcherServlet((WebApplicationContext) context));
+        ServletRegistration.Dynamic servletRegistration;
+        servletRegistration = servletContext.addServlet("mvc", new DispatcherServlet(context));
 
         // the default value for setLoadOnStartup is -1,
         // which means that the container initialize this as lazy loading procedure
